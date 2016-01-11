@@ -15,12 +15,8 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": [
-      {
-      "name": "atom-message-panel",
-      "version": "1.2.4",
-      "path": "node_modules/atom-message-panel/lib/index.js"
-    }
-  ]
+  "dependencies": {
+      "atom-message-panel":"1.2.4"
+  }
 
 }
