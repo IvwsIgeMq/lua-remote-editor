@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Toggle lua-remote-editor'
+      'command': 'lua-remote-editor:toggle'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'lua-remote-editor'
+      'submenu': [
+        {
+          'label': 'Toggle'
+          'command': 'lua-remote-editor:toggle'
+        }
+      ]
+    ]
+  }
+]
