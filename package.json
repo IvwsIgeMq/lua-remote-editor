@@ -1,14 +1,12 @@
 {
   "name": "lua-remote-editor",
   "main": "./lib/lua-remote-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "lua remote debug editor",
   "keywords": [
     "lua-remote-editor"
-
   ],
   "activationCommands": {
-    "atom-workspace": "lua-remote-editor:command",
     "atom-workspace": "lua-remote-editor:connect"
   },
   "repository": "https://github.com/IvwsIgeMq/lua-remote-editor.git",
@@ -17,7 +15,6 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-      "atom-message-panel":"1.2.4"
+    "atom-message-panel": "1.2.4"
   }
-
 }
