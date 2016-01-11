@@ -4,7 +4,7 @@
 SpacePen = require "space-pen"
 {Socket} = require "net"
 
-module.exports = LuaRemoteEditor =
+module.exports = LuaRemoteTool =
   config:
     hostPort:
       type: 'integer'
@@ -25,11 +25,11 @@ module.exports = LuaRemoteEditor =
   activate: ->
           console.log "fasdfafasdfasdfs"
           @subscriptions = new CompositeDisposable
-          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:commend': => @commend()
-          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:connect': => @connect()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-tool:commend': => @commend()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-tool:connect': => @connect()
           if not @messages?
             @messages = new MessagePanelView
-                  title: atom.config.get("lua-remote-editor.hostIP")
+                  title: atom.config.get("lua-remote-tool.hostIP")
             @messages.attach()
             console.log "new message"
 
@@ -42,7 +42,7 @@ module.exports = LuaRemoteEditor =
         @client = null
 
       @client = Socket()
-      @client.connect(atom.config.get("lua-remote-editor.hostPort"),atom.config.get("lua-remote-editor.hostIP"))
+      @client.connect(atom.config.get("lua-remote-tool.hostPort"),atom.config.get("lua-remote-tool.hostIP"))
       @client.on("data", (info)=> @onData(info) )
       @client.on("error",(info) => @onSocketError(info))
       @client.on("connect",(info) => @onConnectSuccess(info))

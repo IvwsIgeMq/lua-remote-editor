@@ -4,28 +4,28 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-0.1.0 - First Release	/Users/liangqingfeng/github/lua-remote-editor/CHANGELOG.md	/^## 0.1.0 - First Release$/;"	function	line:1
-# Keybindings require three things to be fully defined	/Users/liangqingfeng/github/lua-remote-editor/keymaps/lua-remote-editor.cson	/^# Keybindings require three things to be fully defined: A selector that is$/;"	function	line:1
-# https	/Users/liangqingfeng/github/lua-remote-editor/keymaps/lua-remote-editor.cson	/^# https:\/\/atom.io\/docs\/latest\/behind-atom-keymaps-in-depth$/;"	function	line:9
-atom-workspace	/Users/liangqingfeng/github/lua-remote-editor/keymaps/lua-remote-editor.cson	/^'atom-workspace':$/;"	function	line:10
-ctrl-alt-o	/Users/liangqingfeng/github/lua-remote-editor/keymaps/lua-remote-editor.cson	/^  'ctrl-alt-o': 'lua-remote-editor:toggle'$/;"	function	line:11
-# See https	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^# See https:\/\/atom.io\/docs\/latest\/hacking-atom-package-word-count#menus for more details$/;"	function	line:1
-context-menu	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^'context-menu':$/;"	function	line:2
-atom-text-editor	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^  'atom-text-editor': [$/;"	function	line:3
-label	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^      'label': 'Toggle lua-remote-editor'$/;"	function	line:5
-command	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^      'command': 'lua-remote-editor:toggle'$/;"	function	line:6
-menu	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^'menu': [$/;"	function	line:9
-label	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^    'label': 'Packages'$/;"	function	line:11
-submenu	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^    'submenu': [$/;"	function	line:12
-label	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^      'label': 'lua-remote-editor'$/;"	function	line:13
-submenu	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^      'submenu': [$/;"	function	line:14
-label	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^          'label': 'Toggle'$/;"	function	line:16
-command	/Users/liangqingfeng/github/lua-remote-editor/menus/lua-remote-editor.cson	/^          'command': 'lua-remote-editor:toggle'$/;"	function	line:17
-lua-remote-editor package	/Users/liangqingfeng/github/lua-remote-editor/README.md	/^# lua-remote-editor package$/;"	function	line:1
-LuaRemoteEditor	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-remote-editor-spec.coffee	/^describe "LuaRemoteEditor", ->$/;"	function	line:8
-when the lua-remote-editor:toggle event is triggered	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-remote-editor-spec.coffee	/^  describe "when the lua-remote-editor:toggle event is triggered", ->$/;"	function	line:15
-hides and shows the modal panel	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-remote-editor-spec.coffee	/^    it "hides and shows the modal panel", ->$/;"	function	line:16
-hides and shows the view	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-remote-editor-spec.coffee	/^    it "hides and shows the view", ->$/;"	function	line:39
-LuaRemoteEditorView	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-remote-editor-view-spec.coffee	/^describe "LuaRemoteEditorView", ->$/;"	function	line:3
-has one valid test	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-remote-editor-view-spec.coffee	/^  it "has one valid test", ->$/;"	function	line:4
-.lua-remote-editor	/Users/liangqingfeng/github/lua-remote-editor/styles/lua-remote-editor.less	/^.lua-remote-editor {$/;"	function	line:7
+0.1.0 - First Release	/Users/liangqingfeng/github/lua-remote-tool/CHANGELOG.md	/^## 0.1.0 - First Release$/;"	function	line:1
+# Keybindings require three things to be fully defined	/Users/liangqingfeng/github/lua-remote-tool/keymaps/lua-remote-tool.cson	/^# Keybindings require three things to be fully defined: A selector that is$/;"	function	line:1
+# https	/Users/liangqingfeng/github/lua-remote-tool/keymaps/lua-remote-tool.cson	/^# https:\/\/atom.io\/docs\/latest\/behind-atom-keymaps-in-depth$/;"	function	line:9
+atom-workspace	/Users/liangqingfeng/github/lua-remote-tool/keymaps/lua-remote-tool.cson	/^'atom-workspace':$/;"	function	line:10
+ctrl-alt-o	/Users/liangqingfeng/github/lua-remote-tool/keymaps/lua-remote-tool.cson	/^  'ctrl-alt-o': 'lua-remote-tool:toggle'$/;"	function	line:11
+# See https	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^# See https:\/\/atom.io\/docs\/latest\/hacking-atom-package-word-count#menus for more details$/;"	function	line:1
+context-menu	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^'context-menu':$/;"	function	line:2
+atom-text-editor	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^  'atom-text-editor': [$/;"	function	line:3
+label	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^      'label': 'Toggle lua-remote-tool'$/;"	function	line:5
+command	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^      'command': 'lua-remote-tool:toggle'$/;"	function	line:6
+menu	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^'menu': [$/;"	function	line:9
+label	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^    'label': 'Packages'$/;"	function	line:11
+submenu	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^    'submenu': [$/;"	function	line:12
+label	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^      'label': 'lua-remote-tool'$/;"	function	line:13
+submenu	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^      'submenu': [$/;"	function	line:14
+label	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^          'label': 'Toggle'$/;"	function	line:16
+command	/Users/liangqingfeng/github/lua-remote-tool/menus/lua-remote-tool.cson	/^          'command': 'lua-remote-tool:toggle'$/;"	function	line:17
+lua-remote-tool package	/Users/liangqingfeng/github/lua-remote-tool/README.md	/^# lua-remote-tool package$/;"	function	line:1
+LuaRemoteTool	/Users/liangqingfeng/github/lua-remote-tool/spec/lua-remote-tool-spec.coffee	/^describe "LuaRemoteTool", ->$/;"	function	line:8
+when the lua-remote-tool:toggle event is triggered	/Users/liangqingfeng/github/lua-remote-tool/spec/lua-remote-tool-spec.coffee	/^  describe "when the lua-remote-tool:toggle event is triggered", ->$/;"	function	line:15
+hides and shows the modal panel	/Users/liangqingfeng/github/lua-remote-tool/spec/lua-remote-tool-spec.coffee	/^    it "hides and shows the modal panel", ->$/;"	function	line:16
+hides and shows the view	/Users/liangqingfeng/github/lua-remote-tool/spec/lua-remote-tool-spec.coffee	/^    it "hides and shows the view", ->$/;"	function	line:39
+LuaRemoteToolView	/Users/liangqingfeng/github/lua-remote-tool/spec/lua-remote-tool-view-spec.coffee	/^describe "LuaRemoteToolView", ->$/;"	function	line:3
+has one valid test	/Users/liangqingfeng/github/lua-remote-tool/spec/lua-remote-tool-view-spec.coffee	/^  it "has one valid test", ->$/;"	function	line:4
+.lua-remote-tool	/Users/liangqingfeng/github/lua-remote-tool/styles/lua-remote-tool.less	/^.lua-remote-tool {$/;"	function	line:7

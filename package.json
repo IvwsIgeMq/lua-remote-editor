@@ -1,16 +1,16 @@
 {
-  "name": "lua-remote-editor",
-  "main": "./lib/lua-remote-editor",
+  "name": "lua-remote-tool",
+  "main": "./lib/lua-remote-tool",
   "version": "0.0.1",
   "description": "lua remote debug editor",
   "keywords": [
     "lua"
   ],
   "activationCommands": {
-    "atom-workspace": "lua-remote-editor:command",
-    "atom-workspace": "lua-remote-editor:connect"
+    "atom-workspace": "lua-remote-tool:command",
+    "atom-workspace": "lua-remote-tool:connect"
   },
-  "repository": "https://github.com/atom/lua-remote-editor",
+  "repository": "https://github.com/atom/lua-remote-tool",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"

@@ -1,4 +1,4 @@
-# lua-remote-editor package
+# lua-remote-tool package
 
 A short description of your package.
 

@@ -3,18 +3,18 @@
   'atom-text-editor': [
     {
       'label': 'lua-remote:command'
-      'command': 'lua-remote-editor:command'
+      'command': 'lua-remote-tool:command'
     },
     {
       'label': 'lua-remote:connect'
-      'command': 'lua-remote-editor:connect'
+      'command': 'lua-remote-tool:connect'
     }
   ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'lua-remote-editor'
+      'label': 'lua-remote-tool'
       'submenu': [
       
       ]
