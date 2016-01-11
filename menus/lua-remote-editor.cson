@@ -2,8 +2,12 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle lua-remote-editor'
-      'command': 'lua-remote-editor:toggle'
+      'label': 'lua-remote:command'
+      'command': 'lua-remote-editor:command'
+    },
+    {
+      'label': 'lua-remote:connect'
+      'command': 'lua-remote-editor:connect'
     }
   ]
 'menu': [
@@ -12,10 +16,7 @@
     'submenu': [
       'label': 'lua-remote-editor'
       'submenu': [
-        {
-          'label': 'Toggle'
-          'command': 'lua-remote-editor:toggle'
-        }
+      
       ]
     ]
   }
