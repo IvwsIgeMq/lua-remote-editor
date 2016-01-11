@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "description": "lua remote debug editor",
   "keywords": [
-    "lua"
+    "lua-remote-editor"
+
   ],
   "activationCommands": {
     "atom-workspace": "lua-remote-editor:command",
