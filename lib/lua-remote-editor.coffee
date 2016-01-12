@@ -3,6 +3,7 @@
 {MessagePanelView} = require 'atom-message-panel'
 SpacePen = require "space-pen"
 {Socket} = require "net"
+linkPaths = require './link-paths'
 
 module.exports = LuaRemoteEditor =
   config:
@@ -25,14 +26,16 @@ module.exports = LuaRemoteEditor =
   activate: ->
           console.log "fasdfafasdfasdfs"
           @subscriptions = new CompositeDisposable
-          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:commend': => @commend()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:command': => @command()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:connect': => @connect()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:goto': => @goto()
+
           if not @messages?
             @messages = new MessagePanelView
                   title: atom.config.get("lua-remote-editor.hostIP")
             @messages.attach()
             console.log "new message"
-
+          linkPaths.listen(@messages)
 
 
   connect: ->
@@ -60,11 +63,13 @@ module.exports = LuaRemoteEditor =
 
   onSocketError: (error) ->
     console.log this
-    @show(error)
+    @show("onSocketError"+error)
 
   onConnectSuccess:(info) ->
+      @show("onConnectSuccess:\t")
 
   onClose:(info) ->
+      @show("onClose:\t"+info)
 
 
   onData: (data)->
@@ -76,11 +81,13 @@ module.exports = LuaRemoteEditor =
 
   serialize: ->
 
-# G_dump(ls.tool_co);
-
+# print("fsadf")
 
   show: (data)->
     data = data+ '\0'
+    console.log data
+    data = linkPaths(data)
+    console.log data
     @messages.add SpacePen.$$ ->
       @pre class: "line",=>
         @raw  data
@@ -91,19 +98,37 @@ module.exports = LuaRemoteEditor =
     @messages.updateScroll()
 
 
-  commend: ->
+  command: ->
     editor=atom.workspace.getActiveTextEditor()
     str= editor.getSelectedText()
     str= str + ';'
     @client.write(str)
     # console.log str
 
+ #
+ # updateFunc: ->
+ #   editor=atom.workspace.getActiveTextEditor()
+ #   str= editor.getSelectedText()
+ #   title = editor.getTitle()
+ #      #  取出模块名，/^.*\s*function\s*(\w+):(\w+).*$/\2/f/"
+ #      #  取出函数名
+
+
 
 
 
   goto: (path) ->
+    console.log "goto"
     # 行数是0开始的所以显示的行数
-    new_editor = atom.workspace.open("./lua/tools/protobuf.lua")
     editor=atom.workspace.getActiveTextEditor()
-    editor.setCursorBufferPosition([0,0],{autoscroll:true})
+    item = atom.workspace.getActivePaneItem()
+    str = item.getSelectedText()
+    console.log item
+    console.log str
+    console.log editor
+    # new_editor = atom.workspace.open("./lua/tools/protobuf.lua")
+    # editor=atom.workspace.getActiveTextEditor()
+    # str= editor.getSelectedText()
+    # console.log  str
+    # editor.setCursorBufferPosition([0,0],{autoscroll:true})
     # editor.scrollToBufferPosition([1, 2], center: true)
