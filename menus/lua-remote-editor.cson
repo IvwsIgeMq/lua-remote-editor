@@ -16,7 +16,7 @@
     'submenu': [
       'label': 'lua-remote-editor'
       'submenu': [
-
+      
       ]
     ]
   }
