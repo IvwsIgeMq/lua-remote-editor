@@ -25,7 +25,7 @@ module.exports = LuaRemoteEditor =
   activate: ->
           console.log "fasdfafasdfasdfs"
           @subscriptions = new CompositeDisposable
-          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:commend': => @commend()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:command': => @command()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:connect': => @connect()
           if not @messages?
             @messages = new MessagePanelView
@@ -91,7 +91,7 @@ module.exports = LuaRemoteEditor =
     @messages.updateScroll()
 
 
-  commend: ->
+  command: ->
     editor=atom.workspace.getActiveTextEditor()
     str= editor.getSelectedText()
     str= str + ';'
