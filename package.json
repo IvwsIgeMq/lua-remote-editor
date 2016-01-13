@@ -9,7 +9,11 @@
     "remote"
   ],
   "activationCommands": {
-    "atom-workspace": "lua-remote-editor:connect"
+    "atom-workspace": [
+      "lua-remote-editor:connect",
+      "lua-remote-editor:updateFunc",
+      "lua-remote-editor:command"
+    ]
   },
   "repository": "https://github.com/IvwsIgeMq/lua-remote-editor.git",
   "license": "MIT",

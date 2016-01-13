@@ -8,6 +8,10 @@
     {
       'label': 'lua-remote:connect'
       'command': 'lua-remote-editor:connect'
+    },
+    {
+      'label': 'lua-remote:updateFunc'
+      'command': 'lua-remote-editor:updateFunc'
     }
   ]
 'menu': [
@@ -16,7 +20,7 @@
     'submenu': [
       'label': 'lua-remote-editor'
       'submenu': [
-      
+
       ]
     ]
   }

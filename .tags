@@ -29,3 +29,14 @@ hides and shows the view	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-
 LuaRemoteEditorView	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-remote-editor-view-spec.coffee	/^describe "LuaRemoteEditorView", ->$/;"	function	line:3
 has one valid test	/Users/liangqingfeng/github/lua-remote-editor/spec/lua-remote-editor-view-spec.coffee	/^  it "has one valid test", ->$/;"	function	line:4
 .lua-remote-editor	/Users/liangqingfeng/github/lua-remote-editor/styles/lua-remote-editor.less	/^.lua-remote-editor {$/;"	function	line:7
+activate	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  activate: ->$/;"	function	line:26
+connect	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  connect: ->$/;"	function	line:39
+onSocketError	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  onSocketError: (error) ->$/;"	function	line:53
+onConnectSuccess	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  onConnectSuccess:(info) ->$/;"	function	line:57
+onClose	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  onClose:(info) ->$/;"	function	line:60
+onData	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  onData: (data)->$/;"	function	line:64
+deactivate	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  deactivate: ->$/;"	function	line:67
+serialize	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  serialize: ->$/;"	function	line:71
+show	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  show: (data)->$/;"	function	line:74
+command	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^  command: ->$/;"	function	line:86
+updateFunc	/Users/liangqingfeng/github/lua-remote-editor/lib/lua-remote-editor.coffee	/^ updateFunc: ->$/;"	function	line:94

@@ -5,6 +5,10 @@ SpacePen = require "space-pen"
 {Socket} = require "net"
 linkPaths = require './link-paths'
 
+luafuncregex =/^((\s*function)|(\s*local\s*function))\s*\w*\s*\(.*\)\s*(\s*|\w*|.)*end/
+luaFunclineRegexp = /function\s*\w*\s*\((\s*|\w*)\)/
+luaFuncNameRegexp =/function\b\s+?(\w+)\s*/
+
 module.exports = LuaRemoteEditor =
   config:
     hostPort:
@@ -17,19 +21,16 @@ module.exports = LuaRemoteEditor =
       description: 'hostIP'
 
 
-
   subscriptions: null
   client:null
   messages:null
 
 
   activate: ->
-          console.log "fasdfafasdfasdfs"
           @subscriptions = new CompositeDisposable
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:command': => @command()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:connect': => @connect()
-          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:goto': => @goto()
-
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:updateFunc': => @updatefunc()
           if not @messages?
             @messages = new MessagePanelView
                   title: atom.config.get("lua-remote-editor.hostIP")
@@ -51,15 +52,6 @@ module.exports = LuaRemoteEditor =
       @client.on("connect",(info) => @onConnectSuccess(info))
       @client.on("close", (info) => @onClose(info))
       console.log "init socket" + @client
-  #     @messages.add SpacePen.View ->
-  #           @div =>
-  #             @h1 "Spacecraft"
-  #             @ol =>
-  #               @li click: 'launchSpacecraft', "Saturn V"
-  #
-  # launchSpacecraft: (event, element) ->
-  #   console.log "Preparing #{element.name} for launch!"
-
 
   onSocketError: (error) ->
     console.log this
@@ -81,7 +73,6 @@ module.exports = LuaRemoteEditor =
 
   serialize: ->
 
-# print("fsadf")
 
   show: (data)->
     data = data+ '\0'
@@ -91,44 +82,49 @@ module.exports = LuaRemoteEditor =
     @messages.add SpacePen.$$ ->
       @pre class: "line",=>
         @raw  data
-
     @messages.attach()
     # 做个判定是不是在最后一行，是就自动向下移，
-
     @messages.updateScroll()
-
 
   command: ->
     editor=atom.workspace.getActiveTextEditor()
     str= editor.getSelectedText()
     str= str + ';'
     @client.write(str)
-    # console.log str
-
- #
- # updateFunc: ->
- #   editor=atom.workspace.getActiveTextEditor()
- #   str= editor.getSelectedText()
- #   title = editor.getTitle()
- #      #  取出模块名，/^.*\s*function\s*(\w+):(\w+).*$/\2/f/"
- #      #  取出函数名
-
-
-
-
-
-  goto: (path) ->
-    console.log "goto"
-    # 行数是0开始的所以显示的行数
-    editor=atom.workspace.getActiveTextEditor()
-    item = atom.workspace.getActivePaneItem()
-    str = item.getSelectedText()
-    console.log item
     console.log str
-    console.log editor
-    # new_editor = atom.workspace.open("./lua/tools/protobuf.lua")
+
+
+  updatefunc: ->
+    # console.log "updateFunc"
     # editor=atom.workspace.getActiveTextEditor()
     # str= editor.getSelectedText()
-    # console.log  str
-    # editor.setCursorBufferPosition([0,0],{autoscroll:true})
-    # editor.scrollToBufferPosition([1, 2], center: true)
+    # regExpFunction = new RegExp(/function\b\s+?(\w+)\s*/)
+    #
+    # console.log regExpFunction.exec(str)
+    editor=atom.workspace.getActiveTextEditor()
+    str= editor.getSelectedText()
+    title = editor.getTitle()
+    regExpObject = new RegExp(luafuncregex)
+    isFunc = regExpObject.test(str)
+    if isFunc
+      console.log "string is a function"
+      funcNameLine = str.match(luaFuncNameRegexp)[0]
+      funcName = funcNameLine.match(luaFuncNameRegexp)[1]
+      modeName = title.match(/\w*/)[0]
+      code = str.replace(funcName,"")
+      puleCode = code.replace(/--.*/g,"")
+      console.log funcName,modeName
+      luaCode = modeName+"."+funcName+"="+puleCode+";"
+      console.log puleCode
+      @client.write(luaCode)
+    else
+      console.log "string is not a function"
+
+  #  editor=atom.workspace.getActiveTextEditor()
+  #  str= editor.getSelectedText()
+  #  title = editor.getTitle()
+
+
+
+#  取出模块名，/^.*\s*function\s*(\w+):(\w+).*$/\2/f/"
+#  取出函数名
