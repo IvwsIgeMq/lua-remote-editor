@@ -113,9 +113,10 @@ module.exports = LuaRemoteEditor =
       modeName = title.match(/\w*/)[0]
       code = str.replace(funcName,"")
       puleCode = code.replace(/--.*/g,"")
+
       console.log funcName,modeName
-      luaCode = modeName+"."+funcName+"="+puleCode+";"
-      console.log puleCode
+      luaCode = modeName+"=require "+'("'+modeName+'")'+" "+modeName+"."+funcName+"="+puleCode+" print('updateFunc success');"
+      console.log luaCode
       @client.write(luaCode)
     else
       console.log "string is not a function"
