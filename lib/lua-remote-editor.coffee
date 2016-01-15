@@ -9,34 +9,25 @@ luafuncregex =/^((\s*function)|(\s*local\s*function))\s*\w*\s*\(.*\)\s*(\s*|\w*|
 luaFunclineRegexp = /function\s*\w*\s*\((\s*|\w*)\)/
 luaFuncNameRegexp =/function\b\s+?(\w+)\s*/
 
-module.exports = LuaRemoteEditor =
-  config:
-    hostPort:
-      type: 'integer'
-      default: 8011
-      description: 'hostPort'
-    hostIP:
-      type: 'string'
-      default: "127.0.0.1"
-      description: 'hostIP'
 
 
+class LuaRemoteEditor
   subscriptions: null
   client:null
   messages:null
 
-
-  activate: ->
+  constructor: ->
           @subscriptions = new CompositeDisposable
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:command': => @command()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:connect': => @connect()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:updateFunc': => @updatefunc()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:clearlog': => @clearlog()
           if not @messages?
             @messages = new MessagePanelView
                   title: atom.config.get("lua-remote-editor.hostIP")
             @messages.attach()
             console.log "new message"
-          linkPaths.listen(@messages)
+            linkPaths.listen(@messages)
 
 
   connect: ->
@@ -52,6 +43,7 @@ module.exports = LuaRemoteEditor =
       @client.on("connect",(info) => @onConnectSuccess(info))
       @client.on("close", (info) => @onClose(info))
       console.log "init socket" + @client
+
 
   onSocketError: (error) ->
     console.log this
@@ -73,6 +65,11 @@ module.exports = LuaRemoteEditor =
 
   serialize: ->
 
+
+
+
+  clearlog: ->
+    @messages.clear()
 
   show: (data)->
     data = data+ '\0'
@@ -129,3 +126,14 @@ module.exports = LuaRemoteEditor =
 
 #  取出模块名，/^.*\s*function\s*(\w+):(\w+).*$/\2/f/"
 #  取出函数名
+module.exports =
+    config:
+      hostPort:
+        type: 'integer'
+        default: 8011
+        description: 'hostPort'
+      hostIP:
+        type: 'string'
+        default: "127.0.0.1"
+        description: 'hostIP'
+exports = new LuaRemoteEditor

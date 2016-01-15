@@ -12,7 +12,8 @@
     "atom-workspace": [
       "lua-remote-editor:connect",
       "lua-remote-editor:updateFunc",
-      "lua-remote-editor:command"
+      "lua-remote-editor:command",
+      "lua-remote-editor:clearlog"
     ]
   },
   "repository": "https://github.com/IvwsIgeMq/lua-remote-editor.git",

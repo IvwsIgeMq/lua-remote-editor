@@ -12,6 +12,10 @@
     {
       'label': 'lua-remote:updateFunc'
       'command': 'lua-remote-editor:updateFunc'
+    },
+    {
+      'label': 'lua-remote:clearlog'
+      'command': 'lua-remote-editor:clearlog'
     }
   ]
 'menu': [
