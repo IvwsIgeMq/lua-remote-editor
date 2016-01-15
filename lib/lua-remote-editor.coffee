@@ -4,9 +4,10 @@
 SpacePen = require "space-pen"
 {Socket} = require "net"
 linkPaths = require './link-paths'
+FS = require 'fs'
 
 luafuncregex =/^((\s*function)|(\s*local\s*function))\s*\w*\s*\(.*\)\s*(\s*|\w*|.)*end/
-luaFunclineRegexp = /function\s*\w*\s*\((\s*|\w*)\)/
+luaFunclineRegexp = /function\s*\w*\s*\(.*\)/g
 luaFuncNameRegexp =/function\b\s+?(\w+)\s*/
 
 
@@ -22,6 +23,9 @@ class LuaRemoteEditor
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:connect': => @connect()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:updateFunc': => @updatefunc()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:clearlog': => @clearlog()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:trace': => @trace()
+
+
           if not @messages?
             @messages = new MessagePanelView
                   title: atom.config.get("lua-remote-editor.hostIP")
@@ -50,6 +54,7 @@ class LuaRemoteEditor
     @show("onSocketError"+error)
 
   onConnectSuccess:(info) ->
+      @injectluacode()
       @show("onConnectSuccess:\t")
 
   onClose:(info) ->
@@ -68,6 +73,20 @@ class LuaRemoteEditor
 
 
 
+  injectluacode: ->
+    FS.readFile( __dirname+'/../luacode/trace.lua', 'utf8',(err, contents) =>
+                if err
+                  @show(err)
+                else
+                  str = contents.toString()
+                  str= str + ';'
+                  puleCode = str.replace(/--.*/g,"")
+                  @client.write(puleCode)
+              )
+
+# print(trace)
+
+
   clearlog: ->
     @messages.clear()
 
@@ -83,13 +102,34 @@ class LuaRemoteEditor
     # 做个判定是不是在最后一行，是就自动向下移，
     @messages.updateScroll()
 
-  command: ->
+  command:() ->
     editor=atom.workspace.getActiveTextEditor()
     str= editor.getSelectedText()
     str= str + ';'
     @client.write(str)
     console.log str
 
+
+
+  trace: ->
+      editor=atom.workspace.getActiveTextEditor()
+      str= editor.getSelectedText()
+      title = editor.getTitle()
+      regExpObject = new RegExp(luafuncregex)
+      isFunc = regExpObject.test(str)
+      if isFunc
+        funcNameLine = str.match(luaFunclineRegexp)[0]
+        str = str.replace(funcNameLine,funcNameLine+'\n\t trace.trace("n s",5)')
+        funcName = funcNameLine.match(luaFuncNameRegexp)[1]
+        modeName = title.match(/\w*/)[0]
+        code = str.replace(funcName,"")
+        puleCode = code.replace(/--.*/g,"")
+        console.log funcName,modeName
+        luaCode = modeName+"=require "+'("'+modeName+'")'+" "+modeName+"."+funcName+"="+puleCode+" print('updateFunc success');"
+        console.log luaCode
+        @client.write(luaCode)
+      else
+        console.log "string is not a function"
 
   updatefunc: ->
     # console.log "updateFunc"
@@ -105,7 +145,7 @@ class LuaRemoteEditor
     isFunc = regExpObject.test(str)
     if isFunc
       console.log "string is a function"
-      funcNameLine = str.match(luaFuncNameRegexp)[0]
+      funcNameLine = str.match(luaFunclineRegexp)[0]
       funcName = funcNameLine.match(luaFuncNameRegexp)[1]
       modeName = title.match(/\w*/)[0]
       code = str.replace(funcName,"")
@@ -121,6 +161,8 @@ class LuaRemoteEditor
   #  editor=atom.workspace.getActiveTextEditor()
   #  str= editor.getSelectedText()
   #  title = editor.getTitle()
+
+
 
 
 

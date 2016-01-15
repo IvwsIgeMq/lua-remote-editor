@@ -16,6 +16,10 @@
     {
       'label': 'lua-remote:clearlog'
       'command': 'lua-remote-editor:clearlog'
+    },
+    {
+      'label': 'lua-remote:trace'
+      'command': 'lua-remote-editor:trace'
     }
   ]
 'menu': [
