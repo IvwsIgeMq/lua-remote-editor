@@ -5,23 +5,39 @@ SpacePen = require "space-pen"
 {Socket} = require "net"
 linkPaths = require './link-paths'
 FS = require 'fs'
+ssh2 = require 'ssh2'
 
 luafuncregex =/^((\s*function)|(\s*local\s*function))\s*\w*\s*\(.*\)\s*(\s*|\w*|.)*end/
 luaFunclineRegexp = /function\s*\w*\s*\(.*\)/g
 luaFuncNameRegexp =/function\b\s+?(\w+)\s*/
 
 
+module.exports =
+    config:
+      hostPort:
+        type: 'integer'
+        default: 8011
+        description: 'hostPort'
+      hostIP:
+        type: 'string'
+        default: "192.168.3.119"
+        description: 'hostIP'
+
+module.exports = new LuaRemoteEditor
 
 class LuaRemoteEditor
   subscriptions: null
   client:null
   messages:null
+  ssh2Connect = ssh2.client()
+  ssh2SFTP:null
+
 
   constructor: ->
           @subscriptions = new CompositeDisposable
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:command': => @command()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:connect': => @connect()
-          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:updateFunc': => @updatefunc()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:update': => @update()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:clearlog': => @clearlog()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:trace': => @trace()
 
@@ -32,6 +48,15 @@ class LuaRemoteEditor
             @messages.attach()
             console.log "new message"
             linkPaths.listen(@messages)
+
+          @ssh2Connect.on('ready',() =>
+            console.log 'Client ready'
+            @ssh2Connect.sftp((err,sftp)=>
+              if err?
+                throw err
+              @ssh2SFTP = sftp
+              )
+            )
 
 
   connect: ->
@@ -66,6 +91,7 @@ class LuaRemoteEditor
     @show(data)
   deactivate: ->
     @subscriptions.dispose()
+    @ssh2Connect.end()
 
 
   serialize: ->
@@ -84,7 +110,9 @@ class LuaRemoteEditor
                   @client.write(puleCode)
               )
 
-# print(trace)
+
+  updateFile: ->
+
 
 
   clearlog: ->
@@ -108,9 +136,10 @@ class LuaRemoteEditor
     str= str + ';'
     @client.write(str)
     console.log str
+    console.log(str.length)
 
 
-
+    atom.d
   trace: ->
       editor=atom.workspace.getActiveTextEditor()
       str= editor.getSelectedText()
@@ -131,51 +160,36 @@ class LuaRemoteEditor
       else
         console.log "string is not a function"
 
-  updatefunc: ->
-    # console.log "updateFunc"
-    # editor=atom.workspace.getActiveTextEditor()
-    # str= editor.getSelectedText()
-    # regExpFunction = new RegExp(/function\b\s+?(\w+)\s*/)
-    #
-    # console.log regExpFunction.exec(str)
+  update: ->
     editor=atom.workspace.getActiveTextEditor()
-    str= editor.getSelectedText()
     title = editor.getTitle()
-    regExpObject = new RegExp(luafuncregex)
-    isFunc = regExpObject.test(str)
-    if isFunc
-      console.log "string is a function"
-      funcNameLine = str.match(luaFunclineRegexp)[0]
-      funcName = funcNameLine.match(luaFuncNameRegexp)[1]
-      modeName = title.match(/\w*/)[0]
-      code = str.replace(funcName,"")
-      puleCode = code.replace(/--.*/g,"")
+    selected= editor.getSelectedText()
+    console.log selected.length
+    modeName = title.match(/\w*/)[0]
+    filePath= editor.getPath()
+    path = filePath.replace(atom.project.getPaths(),".")
+    FS.readFile( filePath, 'utf8',(err, contents) =>
+                if err
+                  @show(err)
+                else
+                  console.log contents
+                  FS.writeFile(filePath, contents)
+                  # str = contents.toString()
+                  # str = str+'\r'
+                  # console.log(str.length)
+                  # puleCode =  "file = io.open('"+path+"','w')\n"+
+                  #             "local str ='"+str+"'"+
+                  #            "print(file:write(str))"+
+                  #             "file:close()"+
+                  #             "print('update lua file success',str)"
+                  #             # '_G["update_'+modeName+'"] = require("'+modeName+'")'+ 'G_unload_module("'+modeName+'");'
+                  # puleCode = puleCode+';'
+                  # @show(puleCode)
+                  # console.log(puleCode.length)
+                  puleCode = 'print("'+contents+'");'
+                  @client.write(puleCode)
 
-      console.log funcName,modeName
-      luaCode = modeName+"=require "+'("'+modeName+'")'+" "+modeName+"."+funcName+"="+puleCode+" print('updateFunc success');"
-      console.log luaCode
-      @client.write(luaCode)
-    else
-      console.log "string is not a function"
-
-  #  editor=atom.workspace.getActiveTextEditor()
-  #  str= editor.getSelectedText()
-  #  title = editor.getTitle()
+                  # console.log puleCode
 
 
-
-
-
-#  取出模块名，/^.*\s*function\s*(\w+):(\w+).*$/\2/f/"
-#  取出函数名
-module.exports =
-    config:
-      hostPort:
-        type: 'integer'
-        default: 8011
-        description: 'hostPort'
-      hostIP:
-        type: 'string'
-        default: "127.0.0.1"
-        description: 'hostIP'
-exports = new LuaRemoteEditor
+              )

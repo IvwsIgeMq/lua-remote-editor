@@ -10,8 +10,8 @@
       'command': 'lua-remote-editor:connect'
     },
     {
-      'label': 'lua-remote:updateFunc'
-      'command': 'lua-remote-editor:updateFunc'
+      'label': 'lua-remote:update'
+      'command': 'lua-remote-editor:update'
     },
     {
       'label': 'lua-remote:clearlog'

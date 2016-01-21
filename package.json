@@ -11,7 +11,7 @@
   "activationCommands": {
     "atom-workspace": [
       "lua-remote-editor:connect",
-      "lua-remote-editor:updateFunc",
+      "lua-remote-editor:update",
       "lua-remote-editor:command",
       "lua-remote-editor:clearlog"
     ]
@@ -22,6 +22,8 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "atom-message-panel": "1.2.4"
+    "atom-message-panel": "1.2.4",
+    "ssh2": "~0.4.7",
+    "space-pen":"~4.3.4"
   }
 }
