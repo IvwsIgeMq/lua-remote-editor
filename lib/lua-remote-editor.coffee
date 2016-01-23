@@ -6,30 +6,20 @@ SpacePen = require "space-pen"
 linkPaths = require './link-paths'
 FS = require 'fs'
 ssh2 = require 'ssh2'
+_ = require 'underscore-plus'
 
 luafuncregex =/^((\s*function)|(\s*local\s*function))\s*\w*\s*\(.*\)\s*(\s*|\w*|.)*end/
 luaFunclineRegexp = /function\s*\w*\s*\(.*\)/g
 luaFuncNameRegexp =/function\b\s+?(\w+)\s*/
 
 
-module.exports =
-    config:
-      hostPort:
-        type: 'integer'
-        default: 8011
-        description: 'hostPort'
-      hostIP:
-        type: 'string'
-        default: "192.168.3.119"
-        description: 'hostIP'
 
-module.exports = new LuaRemoteEditor
 
 class LuaRemoteEditor
   subscriptions: null
   client:null
   messages:null
-  ssh2Connect = ssh2.client()
+  ssh2Connect:null
   ssh2SFTP:null
 
 
@@ -37,10 +27,9 @@ class LuaRemoteEditor
           @subscriptions = new CompositeDisposable
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:command': => @command()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:connect': => @connect()
-          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:update': => @update()
+          @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:update': => @updateFile()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:clearlog': => @clearlog()
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:trace': => @trace()
-
 
           if not @messages?
             @messages = new MessagePanelView
@@ -48,22 +37,36 @@ class LuaRemoteEditor
             @messages.attach()
             console.log "new message"
             linkPaths.listen(@messages)
-
-          @ssh2Connect.on('ready',() =>
-            console.log 'Client ready'
-            @ssh2Connect.sftp((err,sftp)=>
-              if err?
-                throw err
-              @ssh2SFTP = sftp
-              )
-            )
-
+          @connect()
 
   connect: ->
       console.log "connect"
       if  @client?
         @client.end()
         @client = null
+
+      if @ssh2Connect?
+        @ssh2Connect.end()
+        @ssh2Connect =null
+        @ssh2SFTP.end()
+        @ssh2SFTP = null
+
+      @ssh2Connect = new ssh2()
+      @ssh2Connect.on('ready',() =>
+        console.log 'Client ready'
+        @ssh2Connect.sftp((err,sftp)=>
+          if err?
+              throw err
+          @ssh2SFTP = sftp
+          console.log "sftp connect success "
+        )
+      )
+      @ssh2Connect.connect({
+          host: atom.config.get("lua-remote-editor.hostIP"),
+          port: 22,
+          username: atom.config.get("lua-remote-editor.userName"),
+          privateKey: FS.readFileSync(atom.config.get( "lua-remote-editor.privateKey"))
+        })
 
       @client = Socket()
       @client.connect(atom.config.get("lua-remote-editor.hostPort"),atom.config.get("lua-remote-editor.hostIP"))
@@ -112,6 +115,12 @@ class LuaRemoteEditor
 
 
   updateFile: ->
+    editor=atom.workspace.getActiveTextEditor()
+    remotePath = atom.config.get("lua-remote-editor.remoteDirectory")
+    localPath = editor.getPath()
+    remotePath = remotePath+atom.project.relativizePath(localPath)
+    console.log remotePath,localPath,atom.project.getPaths()[0]
+    # @ssh2SFTP.fastPut(editor.getPath(),remotePath+)
 
 
 
@@ -193,3 +202,30 @@ class LuaRemoteEditor
 
 
               )
+
+
+module.exports =
+  config:
+    hostPort:
+      type: 'integer'
+      default: 8011
+      description: 'hostPort'
+    hostIP:
+      type: 'string'
+      default: "192.168.3.119"
+      description: 'hostIP'
+    userName :
+      type:'string'
+      default: "my ssh name"
+    password:
+      type:'string'
+      default:"password"
+    privateKey:
+      type:'string'
+      default:"/Users/liangqingfeng/.ssh"
+    remoteDirectory:
+      type:'string'
+      default:"/home"
+
+
+exports = new LuaRemoteEditor
