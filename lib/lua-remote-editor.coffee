@@ -7,6 +7,7 @@ linkPaths = require './link-paths'
 FS = require 'fs'
 ssh2 = require 'ssh2'
 _ = require 'underscore-plus'
+Path = require 'path'
 
 luafuncregex =/^((\s*function)|(\s*local\s*function))\s*\w*\s*\(.*\)\s*(\s*|\w*|.)*end/
 luaFunclineRegexp = /function\s*\w*\s*\(.*\)/g
@@ -23,6 +24,8 @@ class LuaRemoteEditor
   ssh2SFTP:null
 
 
+
+
   constructor: ->
           @subscriptions = new CompositeDisposable
           @subscriptions.add atom.commands.add 'atom-workspace', 'lua-remote-editor:command': => @command()
@@ -37,7 +40,13 @@ class LuaRemoteEditor
             @messages.attach()
             console.log "new message"
             linkPaths.listen(@messages)
-          @connect()
+          @editorsSubscription = atom.workspace.observeTextEditors (editor) =>
+            disposable = editor.onDidSave =>
+              @updateFile()
+            editor.onDidDestroy -> disposable.dispose()
+
+
+
 
   connect: ->
       console.log "connect"
@@ -95,6 +104,8 @@ class LuaRemoteEditor
   deactivate: ->
     @subscriptions.dispose()
     @ssh2Connect.end()
+    @editorsSubscription.dispose()
+    projectSubscription.dispose()
 
 
   serialize: ->
@@ -113,16 +124,61 @@ class LuaRemoteEditor
                   @client.write(puleCode)
               )
 
-
   updateFile: ->
     editor=atom.workspace.getActiveTextEditor()
     remotePath = atom.config.get("lua-remote-editor.remoteDirectory")
     localPath = editor.getPath()
-    remotePath = remotePath+atom.project.relativizePath(localPath)
-    console.log remotePath,localPath,atom.project.getPaths()[0]
-    # @ssh2SFTP.fastPut(editor.getPath(),remotePath+)
+    remotePath = remotePath+'/'+atom.project.relativizePath(localPath)[1]
+    @ssh2SFTP.mkdir(remotePath,(err ) ->
+      console.log err
+      )
+    @ssh2SFTP.mkfile(remotePath, (err)->
+      console.log err
+      )
+    # @ssh2SFTP.exists()
+    # @ssh2SFTP.fastPut(editor.getPath(),remotePath,(err) =>
+    #     console.log "同步文件"+localPath
+    #     console.log err
+    #   )
 
-
+  updateAll: ->
+    # var fs = require('fs');
+    # walk: (root,cb)->
+    #   results = [];
+    #   FS.readdir(root,(err,list)->
+    #     for file in list
+    #       if FS.statSync(file).isDirectory()
+    #
+    #
+    #
+    #     )
+    # var walk = function(dir, done) {
+    #   var
+    #   fs.readdir(dir, function(err, list) {
+    #     if (err) return done(err);
+    #     var i = 0;
+    #
+    #     (function next() {
+    #       var file = list[i++];
+    #       if (!file) return done(null, results);
+    #       file = dir + '/' + file;
+    #       fs.stat(file, function(err, stat) {
+    #         if (stat && stat.isDirectory()) {
+    #           walk(file, function(err, res) {
+    #             results = results.concat(res);
+    #             next();
+    #           });
+    #         } else {
+    #           results.push(file);
+    #           next();
+    #         }
+    #       });
+    #     })();
+    #   });
+    # };
+    # atom.project.getDirectories()
+    # @ssh2SFTP.exists()
+    #
 
   clearlog: ->
     @messages.clear()
