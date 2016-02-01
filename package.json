@@ -5,8 +5,7 @@
   "description": "lua remote debug editor",
   "keywords": [
     "lua-remote-editor",
-    "lua",
-    "remote"
+    "lua server"
   ],
   "activationCommands": [],
   "repository": "https://github.com/IvwsIgeMq/lua-remote-editor.git",
@@ -17,6 +16,7 @@
   "dependencies": {
     "atom-message-panel": "1.2.4",
     "ssh2": "~0.4.7",
-    "space-pen":"~4.3.4"
+    "space-pen":"~4.3.4",
+    "remote-sync":"~3.5.0"
   }
 }

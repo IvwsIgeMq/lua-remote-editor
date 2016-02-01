@@ -1,26 +1,28 @@
 # See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
 'context-menu':
-  'atom-text-editor': [
-    {
-      'label': 'lua-remote:command'
-      'command': 'lua-remote-editor:command'
-    },
-    {
-      'label': 'lua-remote:connect'
-      'command': 'lua-remote-editor:connect'
-    },
-    {
-      'label': 'lua-remote:update'
-      'command': 'lua-remote-editor:update'
-    },
-    {
-      'label': 'lua-remote:clearlog'
-      'command': 'lua-remote-editor:clearlog'
-    },
-    {
-      'label': 'lua-remote:trace'
-      'command': 'lua-remote-editor:trace'
-    }
+  'atom-text-editor, .tree-view.full-menu .file':[
+    label: 'lua-remote-editor',
+    submenu:[
+      {label:'command',command:'lua-remote-editor:command'}
+      {label:'connect',command:'lua-remote-editor:connect'}
+      {label:'clearlog',command:'lua-remote-editor:clearlog'}
+      {label:'trace',command:'lua-remote-editor:trace'}
+      {label: 'Upload File', command: 'lua-remote-editor:upload-file'}
+      {label: 'Download File', command: 'lua-remote-editor:download-file'}
+      {label: 'Diff File', command: 'lua-remote-editor:diff-file'}
+      {label: 'Delete File', command: 'lua-remote-editor:delete-file'}
+    ]
+  ]
+  '.tree-view.full-menu .header.list-item':[
+    label: 'lua-remote-editor',
+    submenu:[
+      {label: 'Configure', command: 'lua-remote-editor:configure'}
+      {label: 'Upload Folder', command: 'lua-remote-editor:upload-folder'}
+      {label: 'Upload Folder Change', command: 'lua-remote-editor:upload-git-change'}
+      {label: 'Download Folder', command: 'lua-remote-editor:download-folder'}
+      {label: 'Diff Folder', command: 'lua-remote-editor:diff-folder'}
+      {label: 'Delete Folder', command: 'lua-remote-editor:delete-folder'}
+    ]
   ]
 'menu': [
   {

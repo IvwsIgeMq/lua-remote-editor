@@ -1,0 +1,13 @@
+{
+  "uploadOnSave": false,
+  "deleteLocal": false,
+  "hostname": "127.0.0.1",
+  "port": "22",
+  "serverport": "8011",
+  "target": "fdfas",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "transport": "scp"
+}
