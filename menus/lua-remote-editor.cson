@@ -11,6 +11,7 @@
       {label: 'Download File', command: 'lua-remote-editor:download-file'}
       {label: 'Diff File', command: 'lua-remote-editor:diff-file'}
       {label: 'Delete File', command: 'lua-remote-editor:delete-file'}
+      {label: 'Remote Reload',command:'lua-remote-editor:reload'}
     ]
   ]
   '.tree-view.full-menu .header.list-item':[

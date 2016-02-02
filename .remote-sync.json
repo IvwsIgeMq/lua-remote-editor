@@ -1,7 +1,7 @@
 {
   "uploadOnSave": false,
   "deleteLocal": false,
-  "hostname": "127.0.0.1",
+  "hostname": "192.168.43.14",
   "port": "22",
   "serverport": "8011",
   "target": "fdfas",
