@@ -1,7 +1,7 @@
 {
   "name": "lua-remote-editor",
   "main": "./lib/lua-remote-editor",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "lua remote debug editor",
   "keywords": [
     "lua-remote-editor",
