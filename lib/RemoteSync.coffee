@@ -14,13 +14,10 @@ Host = null
 
 HostView = null
 EventEmitter = null
+logger = require "./Logger"
 
-logger = null
 getLogger = ->
-  if not logger
-    Logger = require "./Logger"
-    logger = new Logger "Remote Sync"
-  return logger
+  return logger.getLogger()
 
 class RemoteSync
   constructor: (@projectPath, @configPath) ->
